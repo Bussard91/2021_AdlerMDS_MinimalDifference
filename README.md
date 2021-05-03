@@ -8,7 +8,9 @@ Here is the link to the "ready-to-use" web app on shinyapp.io: https://adlermds.
 
 You can run this WebApp on your local machine in a R Session using the following code:
 
+```bash
 library(shiny)
 runGitHub("2021_AdlerMDS_MinimalDifference", "Bussard91", ref = "main")
+```
 
 Notice that the package "shiny" has to be installed.
