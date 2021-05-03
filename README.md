@@ -6,3 +6,9 @@ The algorithms used were published in the following paper: https://link.springer
 
 Here is the link to the "ready-to-use" web app on shinyapp.io: https://adlermds.shinyapps.io/AdlerMDS_MinimalDifference/
 
+You can run this WebApp on your local machine in a R Session using the following code:
+
+library(shiny)
+runGitHub("2021_AdlerMDS_MinimalDifference", "Bussard91", ref = "main")
+
+Notice that the package "shiny" has to be installed.
