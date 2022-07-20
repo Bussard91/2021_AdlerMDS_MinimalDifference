@@ -1,0 +1,47 @@
+---
+title: "Dynamic report"
+output: pdf_document
+params:
+  df_report: NA
+  input_xaxismin2: NA
+  input_xaxismax2: NA
+  input_yaxismax2: NA
+  input_Cut: NA
+  input_Unit: NA
+  input_Name: NA
+---
+
+
+```{r echo=FALSE, warning=FALSE}
+# Inputs for plot x-axis
+    df<-params$df_report
+    print(df)
+
+  # MD estimation
+    Model <- lm(df$MD ~ df$Mean)
+    MiniDiff <- ((Model$coefficients[2])*params$input_Cut) + (Model$coefficients[1])
+    MinDiffEst <- paste("The Minimal Difference at the Cut-Off of", params$input_Cut, params$input$Unit, "is", round(MiniDiff,2), params$input_Unit, ".")
+    MinDiffEst
+
+  # Linear regression formula
+
+    if(Model$coefficients[1] < 0){
+      LinReg <- paste("The formula for the linear regression model is: MD = ", round(Model$coefficients[2],2),
+                    "x Cut-Off", round(Model$coefficients[1],4), ".")
+      return(LinReg)
+    } else {
+      LinReg <- paste("The formula for the linear regression model is: y = ", round(Model$coefficients[2],2),
+                      "x +", round(Model$coefficients[1],4), ".")
+      return(LinReg)
+    }
+
+  # Linear regression plot
+    a <- params$input_Cut
+    plot(df$Mean, df$MD, xlab = paste(params$input_Name, "in", params$input_Unit), ylab = paste("Minimal Difference in", params$input_Unit),
+         col = "blue", cex = 2, pch = 16, xlim = c(params$input_xaxismin2, params$input_xaxismax2), ylim = c(0, params$input_yaxismax2),
+         main = paste("Regression plot of", params$input_Name, "MD based on quality controls"))
+    abline(Model, lwd = 2)
+    points(x = params$input_Cut, y = Model$coefficients[2]*params$input_Cut+Model$coefficients[1], col = "red", pch = 16, cex = 2)
+    legend(x = (params$input_xaxismin2 + params$input_xaxismax2)/1.7, y = params$input_yaxismax2/5, legend = c("Quality controls", "Cut-Off"),
+           pch = c(16, 16), col = c("blue", "red"))
+```
