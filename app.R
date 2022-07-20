@@ -21,6 +21,7 @@ ui <- fluidPage(
                  numericInput("VKLow", "Coefficient of variation of low quality control:", 1.6),
                  numericInput("MeanHigh", "Mean of high quality control:", 15.3),
                  numericInput("VKHigh", "Coefficient of variation of high quality control:", 1.7),
+                 downloadButton("report", "Generate report"),
                  tags$hr(),
                  tags$br(),
                  tags$strong("Copyright by Jakob Adler")
@@ -168,6 +169,29 @@ server <- function(input, output){
     legend(x = (input$xaxismin2 + input$xaxismax2)/1.7, y = input$yaxismax2/5, legend = c("Quality controls", "Cut-Off"),
            pch = c(16, 16), col = c("blue", "red"))
   })
+  
+  output$report <- downloadHandler(
+    filename = "report.pdf",
+    content = function(file) {
+
+      tempReport <- file.path(tempdir(), "report.Rmd")
+      file.copy("report.Rmd", tempReport, overwrite = TRUE)
+ 
+      params <- list(df_report = Data(),
+                     input_xaxismin2 = input$xaxismin2,
+                     input_xaxismax2 = input$xaxismax2,
+                     input_yaxismax2 = input$yaxismax2,
+                     input_Cut = input$Cut,
+                     input_Unit = input$Unit,
+                     input_Name = input$Name)
+
+      rmarkdown::render(tempReport, output_file = file,
+                        params = params,
+                        envir = new.env(parent = globalenv())
+      )
+    }
+  )
+  
 }
 
 shinyApp(ui = ui, server = server)
