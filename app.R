@@ -134,6 +134,10 @@ server <- function(input, output){
     df <- Data()
     numericInput("yaxismax2", "Maximum y-axis:", max(df$MD))
   })
+  outputOptions(output, "xaxismin1", suspendWhenHidden=FALSE)
+  outputOptions(output, "xaxismax1", suspendWhenHidden=FALSE)
+  outputOptions(output, "yaxismax1", suspendWhenHidden=FALSE)
+  
   # MD estimation
   output$MinDiff <- renderPrint({
     df <- Data()
@@ -171,9 +175,9 @@ server <- function(input, output){
   })
   
   output$report <- downloadHandler(
+
     filename = "report.pdf",
     content = function(file) {
-
       tempReport <- file.path(tempdir(), "report.Rmd")
       file.copy("report.Rmd", tempReport, overwrite = TRUE)
  
