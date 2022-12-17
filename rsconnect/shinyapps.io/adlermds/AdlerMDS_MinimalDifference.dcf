@@ -1,0 +1,14 @@
+name: AdlerMDS_MinimalDifference
+title: AdlerMDS_MinimalDifference
+username:
+account: adlermds
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 7909284
+bundleId: 6648142
+url: https://adlermds.shinyapps.io/AdlerMDS_MinimalDifference/
+when: 1671281892.50596
+lastSyncTime: 1671281892.50597
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .RData
