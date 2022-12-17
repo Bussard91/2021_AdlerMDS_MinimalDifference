@@ -1,15 +1,15 @@
 # Minimal Difference - RShiny Web-App
+# Coded by: Dr. med. J. Adler
+# Contact: jakob_adler@gmx.de
 
-## Packages
+## Packages to load
 library(shiny)
-library(shinythemes)
 
 ## User Interface
 
 ui <- fluidPage(
+  # headline
   h2("Adler Medical Data Science - Minimal Difference (MD)"),
-  # theme for style of the web app
-  theme = shinytheme("cosmo"),
   # navigation bar layout
   sidebarLayout(
     sidebarPanel(width = 3,
@@ -24,23 +24,23 @@ ui <- fluidPage(
                  downloadButton("report", "Generate report"),
                  tags$hr(),
                  tags$br(),
-                 tags$strong("Copyright by Jakob Adler")
+                 tags$strong("Copyright by Dr. med. Jakob Adler")
     ),
     mainPanel(
       tabsetPanel(
         tabPanel(
-          h4("Introduction"),
+          h4("Explanatory notes"),
           tags$br(),
-          "This is a little web app for estimation of the Minimal Difference (MD) from quality control measurements. The
+          "This is a web app for estimation of the Minimal Difference (MD) from quality control measurements. The
           theoretical basis of these estimation is published in this article:",
           tags$br(),
           tags$br(),
           uiOutput("Link1"),
           tags$br(),
-          "On the right site you can enter the name and the measurement unit of the parameter.",
+          "On the right site you can enter the name and the unit of the parameter.",
           tags$br(),
           tags$br(),
-          "To calculate the Minimal Difference at a given cut-off, you must enter the mean and the
+          "To calculate the Minimal Difference at a given cut-off, you have to enter the mean and the
           coefficient of variation of a low and a high quality control.",
           tags$br(),
           tags$br(),
@@ -105,58 +105,71 @@ server <- function(input, output){
     b <- input$MeanHigh
     c <- input$VKLow
     d <- input$VKHigh
-    e <- round(((a*c)/100)*2, 4)
-    f <- round(((b*d)/100)*2, 4)
+    # Estimation of minimal difference of the low quality control
+    e <- round(((a*c)/100)*2, 2)
+    # Estimation of minimal difference of the low quality control
+    f <- round(((b*d)/100)*2, 2)
+    # Combine columns
     MW <- c(a, b)
     VK <- c(c, d)
     MD <- c(e, f)
+    # Combine columns to table
     df <- cbind(MW, VK, MD)
+    # Format into dataframe
     df <- as.data.frame(df)
+    # Rename columns and rows
     colnames(df) <- c("Mean","VK","MD")
     rownames(df) <- c("Low quality control", "High quality control")
     df
   })
   # Data set output
   output$Dataset <- renderPrint({
-    df <- Data()
-    df
+    Data()
   })
   # Inputs for plot x-axis
   output$xaxismin1 <- renderUI({
+    # Set minimum of column mean as default minimum of the x-axis
     df <- Data()
     numericInput("xaxismin2", "Minimum x-axis:", min(df$Mean))
   })
   output$xaxismax1 <- renderUI({
+    # Set maximum of column mean as default maximum of the x-axis
     df <- Data()
     numericInput("xaxismax2", "Maximum x-axis:", max(df$Mean))
   })
   output$yaxismax1 <- renderUI({
+    # Set maximum of column MD as default maximum of the y-axis
     df <- Data()
     numericInput("yaxismax2", "Maximum y-axis:", max(df$MD))
   })
   outputOptions(output, "xaxismin1", suspendWhenHidden=FALSE)
   outputOptions(output, "xaxismax1", suspendWhenHidden=FALSE)
   outputOptions(output, "yaxismax1", suspendWhenHidden=FALSE)
-  
   # MD estimation
   output$MinDiff <- renderPrint({
     df <- Data()
+    # Linear regression model
     Model <- lm(df$MD ~ df$Mean)
+    # Using coefficients to estimate MD: MD = slope * Cut-Off + Intercept
     MiniDiff <- ((Model$coefficients[2])*input$Cut) + (Model$coefficients[1])
+    # Return the estimated MD
     MinDiffEst <- paste("The Minimal Difference at the Cut-Off of", input$Cut, input$Unit, "is", round(MiniDiff,2), input$Unit, ".")
     MinDiffEst
   })
-  # Linear regression formula
+  # Linear regression formula output
   output$LinReg <- renderPrint({
     df <- Data()
     Model <- lm(df$MD ~ df$Mean)
+    # Return the linear regression formula depending on positivity or negativity of the intercept
     if(Model$coefficients[1] < 0){
+      # Pasted sentence if intercept is negative
       LinReg <- paste("The formula for the linear regression model is: MD = ", round(Model$coefficients[2],2),
                     "x Cut-Off", round(Model$coefficients[1],4), ".")
       return(LinReg)
     } else {
+      # Pasted sentence if intercept is positive
       LinReg <- paste("The formula for the linear regression model is: y = ", round(Model$coefficients[2],2),
-                      "x +", round(Model$coefficients[1],4), ".")
+                      "x Cut-Off +", round(Model$coefficients[1],4), ".")
       return(LinReg)
     }
   })
@@ -175,7 +188,6 @@ server <- function(input, output){
   })
   
   output$report <- downloadHandler(
-
     filename = "report.pdf",
     content = function(file) {
       tempReport <- file.path(tempdir(), "report.Rmd")
