@@ -50,10 +50,7 @@ ui <- fluidPage(
           tags$br(),
           "This model ist used to estimate the MD at a given cut-off.", 
           tags$hr(),
-          "For critics and questions, please contact", tags$strong("Jakob Adler:"),
-          tags$br(),
-          tags$br(),
-          uiOutput("Link2"),
+          "For critics and questions, please contact:", uiOutput("Link2"),
           tags$br(),
           tags$strong("Copyright by Dr. med. Jakob Adler")
         ),

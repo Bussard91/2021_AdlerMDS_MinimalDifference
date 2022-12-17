@@ -56,3 +56,5 @@ points(x = params$input_Cut, y = Model$coefficients[2]*params$input_Cut+Model$co
 
 legend(x = (params$input_xaxismin2 + params$input_xaxismax2)/1.7, y = params$input_yaxismax2/5, legend = c("Quality controls", "Cut-Off"), pch = c(16, 16), col = c("blue", "red"))
 ```
+
+Copyright by Dr. med. Jakob Adler
