@@ -188,7 +188,7 @@ server <- function(input, output){
   })
   
   output$report <- downloadHandler(
-    filename = "report.pdf",
+    filename = "MD report.pdf",
     content = function(file) {
       tempReport <- file.path(tempdir(), "report.Rmd")
       file.copy("report.Rmd", tempReport, overwrite = TRUE)
