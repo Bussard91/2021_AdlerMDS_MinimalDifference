@@ -55,7 +55,7 @@ ui <- fluidPage(
           tags$br(),
           uiOutput("Link2"),
           tags$br(),
-          tags$strong("Copyright by Jakob Adler")
+          tags$strong("Copyright by Dr. med. Jakob Adler")
         ),
         tabPanel(
           h4("Estimation of MD"),
