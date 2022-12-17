@@ -15,7 +15,7 @@ This is a sample report to demonstrate the capabilities of automated reporting u
 
 Below you will find the dataset that the calculation was based on:
 
-```{r Dataset, message=FALSE, warning=FALSE}
+```{r Dataset, echo=FALSE, message=FALSE, warning=FALSE}
 # Inputs for plot x-axis
 df <- params$df_report
 print(df)
@@ -44,7 +44,7 @@ if(Model$coefficients[1] < 0){
 
 Finally, we consider the visualization of the model:
 
-```{r Visualization, message=FALSE, warning=FALSE}
+```{r Visualization, echo=FALSE, message=FALSE, warning=FALSE}
 # Linear regression plot
 a <- params$input_Cut
 
