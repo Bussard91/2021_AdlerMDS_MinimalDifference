@@ -1,5 +1,5 @@
 ---
-title: "Dynamic report"
+title: "Minimal Difference at a given Cut-Off"
 output: pdf_document
 params:
   df_report: NA
@@ -11,37 +11,48 @@ params:
   input_Name: NA
 ---
 
+This is a sample report to demonstrate the capabilities of automated reporting using a Shiny app.
 
-```{r echo=FALSE, warning=FALSE}
+Below you will find the dataset that the calculation was based on:
+
+```{r Dataset, message=FALSE, warning=FALSE}
 # Inputs for plot x-axis
-    df<-params$df_report
-    print(df)
+df <- params$df_report
+print(df)
+```
 
-  # MD estimation
-    Model <- lm(df$MD ~ df$Mean)
-    MiniDiff <- ((Model$coefficients[2])*params$input_Cut) + (Model$coefficients[1])
-    MinDiffEst <- paste("The Minimal Difference at the Cut-Off of", params$input_Cut, params$input$Unit, "is", round(MiniDiff,2), params$input_Unit, ".")
-    MinDiffEst
+The calculation of the minimal difference and the output of the linear regression model follow:
 
-  # Linear regression formula
+```{r MD and Model, echo=FALSE, warning=FALSE}
+# MD estimation
+Model <- lm(df$MD ~ df$Mean)
+MiniDiff <- ((Model$coefficients[2])*params$input_Cut) + (Model$coefficients[1])
+MinDiffEst <- paste("The Minimal Difference at the Cut-Off of", params$input_Cut, params$input$Unit, "is", round(MiniDiff,2), params$input_Unit, ".")
+MinDiffEst
 
-    if(Model$coefficients[1] < 0){
-      LinReg <- paste("The formula for the linear regression model is: MD = ", round(Model$coefficients[2],2),
+# Linear regression formula
+if(Model$coefficients[1] < 0){
+    LinReg <- paste("The formula for the linear regression model is: MD = ", round(Model$coefficients[2],2),
                     "x Cut-Off", round(Model$coefficients[1],4), ".")
-      return(LinReg)
-    } else {
-      LinReg <- paste("The formula for the linear regression model is: y = ", round(Model$coefficients[2],2),
+    return(LinReg)
+  } else {
+    LinReg <- paste("The formula for the linear regression model is: y = ", round(Model$coefficients[2],2),
                       "x +", round(Model$coefficients[1],4), ".")
-      return(LinReg)
-    }
+    return(LinReg)
+  }
+```
 
-  # Linear regression plot
-    a <- params$input_Cut
-    plot(df$Mean, df$MD, xlab = paste(params$input_Name, "in", params$input_Unit), ylab = paste("Minimal Difference in", params$input_Unit),
-         col = "blue", cex = 2, pch = 16, xlim = c(params$input_xaxismin2, params$input_xaxismax2), ylim = c(0, params$input_yaxismax2),
-         main = paste("Regression plot of", params$input_Name, "MD based on quality controls"))
-    abline(Model, lwd = 2)
-    points(x = params$input_Cut, y = Model$coefficients[2]*params$input_Cut+Model$coefficients[1], col = "red", pch = 16, cex = 2)
-    legend(x = (params$input_xaxismin2 + params$input_xaxismax2)/1.7, y = params$input_yaxismax2/5, legend = c("Quality controls", "Cut-Off"),
-           pch = c(16, 16), col = c("blue", "red"))
+Finally, we consider the visualization of the model:
+
+```{r Visualization, message=FALSE, warning=FALSE}
+# Linear regression plot
+a <- params$input_Cut
+
+plot(df$Mean, df$MD, xlab = paste(params$input_Name, "in", params$input_Unit), ylab = paste("Minimal Difference in",    params$input_Unit), col = "blue", cex = 2, pch = 16, xlim = c(params$input_xaxismin2, params$input_xaxismax2), ylim = c(0, params$input_yaxismax2), main = paste("Regression plot of", params$input_Name, "MD based on quality controls"))
+
+abline(Model, lwd = 2)
+
+points(x = params$input_Cut, y = Model$coefficients[2]*params$input_Cut+Model$coefficients[1], col = "red", pch = 16, cex = 2)
+
+legend(x = (params$input_xaxismin2 + params$input_xaxismax2)/1.7, y = params$input_yaxismax2/5, legend = c("Quality controls", "Cut-Off"), pch = c(16, 16), col = c("blue", "red"))
 ```
