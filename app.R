@@ -24,7 +24,7 @@ ui <- fluidPage(
                  downloadButton("report", "Generate report"),
                  tags$hr(),
                  tags$br(),
-                 tags$strong("Copyright by Dr. med. Jakob Adler")
+                 tags$strong("Copyright by Dr. med. Jakob Adler and Julian Gebauer")
     ),
     mainPanel(
       tabsetPanel(
@@ -37,7 +37,7 @@ ui <- fluidPage(
           tags$br(),
           uiOutput("Link1"),
           tags$br(),
-          "On the right site you can enter the name and the unit of the parameter.",
+          "On the left site you can enter the name and the unit of the parameter.",
           tags$br(),
           tags$br(),
           "To calculate the Minimal Difference at a given cut-off, you have to enter the mean and the
@@ -52,7 +52,7 @@ ui <- fluidPage(
           tags$hr(),
           "For critics and questions, please contact:", uiOutput("Link2"),
           tags$br(),
-          tags$strong("Copyright by Dr. med. Jakob Adler")
+          tags$strong("Copyright by Dr. med. Jakob Adler and Julian Gebauer")
         ),
         tabPanel(
           h4("Estimation of MD"),
@@ -62,7 +62,7 @@ ui <- fluidPage(
             column(4, verbatimTextOutput("Dataset"))
           ),
           tags$hr(),
-          h4("Estimation of Minimal Difference at the Cut-Off:"),
+          h4("Estimation of Minimal Difference at the Cut-Off (please insert Cut-Off):"),
           inputPanel(
             uiOutput("xaxismin1"),
             uiOutput("xaxismax1"),
