@@ -31,8 +31,12 @@ ui <- fluidPage(
         tabPanel(
           h4("Explanatory notes"),
           tags$br(),
-          "This is a web app for estimation of the Minimal Difference (MD) from quality control measurements. The
-          theoretical basis of these estimation is published in this article:",
+          "This is a web app for estimation of the Minimal Difference (MD) from quality control measurements.",
+          tags$strong( "Please note that this app is an app for demonstrating Shiny. The app is not externally validated so
+          no guarantees are made for the calculated results."),
+          tags$br(),
+          tags$br(),
+          "The theoretical basis of these estimation is published in this article:",
           tags$br(),
           tags$br(),
           uiOutput("Link1"),
