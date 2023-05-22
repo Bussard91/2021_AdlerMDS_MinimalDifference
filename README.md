@@ -6,6 +6,8 @@ The algorithms used were published in the following [paper](https://link.springe
 
 Here is the link to the "ready-to-use" [web app](https://adlermds.shinyapps.io/AdlerMDS_MinimalDifference/).
 
+This WebApp is published in [this](https://www.degruyter.com/document/doi/10.1515/labmed-2023-0020/html) article.
+
 You can run this WebApp on your local machine in a R Session using the following code:
 
 ```bash
