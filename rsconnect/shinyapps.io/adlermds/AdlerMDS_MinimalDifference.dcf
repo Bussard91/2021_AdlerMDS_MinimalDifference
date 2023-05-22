@@ -5,10 +5,10 @@ account: adlermds
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 7909284
-bundleId: 7131890
+bundleId: 7250025
 url: https://adlermds.shinyapps.io/AdlerMDS_MinimalDifference/
-when: 1682407373.37006
-lastSyncTime: 1682407373.37008
+when: 1684788871.73913
+lastSyncTime: 1684788871.73915
 asMultiple: FALSE
 asStatic: FALSE
 ignoredFiles: .RData
